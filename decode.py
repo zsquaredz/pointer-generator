@@ -112,7 +112,7 @@ class BeamSearchDecoder(object):
           except ValueError:
             decoded_words = decoded_words
           decoded_output = ' '.join(decoded_words)  # single string
-          decoded_output_list.append(decoded_output)
+          decoded_output_list.append(decoded_words)
 
         if FLAGS.single_pass:
           self.write_for_rouge_custom(original_abstract_sents, decoded_output_list,

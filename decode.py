@@ -112,7 +112,7 @@ class BeamSearchDecoder(object):
           except ValueError:
             decoded_words = decoded_words
           decoded_output = ' '.join(decoded_words)  # single string
-          decoded_output_list.append(decoded_words)
+          decoded_output_list.append(decoded_output)
 
         if FLAGS.single_pass:
           self.write_for_rouge_custom(original_abstract_sents, decoded_output_list,
@@ -207,22 +207,24 @@ class BeamSearchDecoder(object):
       ex_index: int, the index with which to label the files
     """
     # First, divide decoded output into sentences
-    decoded_sents_list = []
-    for decoded_words in decoded_words_list:
-      decoded_sents = []
-      while len(decoded_words) > 0:
-        try:
-          fst_period_idx = decoded_words.index(".")
-        except ValueError: # there is text remaining that doesn't end in "."
-          fst_period_idx = len(decoded_words)
-        sent = decoded_words[:fst_period_idx+1] # sentence up to and including the period
-        decoded_words = decoded_words[fst_period_idx+1:] # everything else
-        decoded_sents.append(' '.join(sent))
 
-      # pyrouge calls a perl script that puts the data into HTML files.
-      # Therefore we need to make our output HTML safe.
-      decoded_sents = [make_html_safe(w) for w in decoded_sents]
-      decoded_sents_list.append(decoded_sents)
+    # decoded_sents_list = []
+    # for decoded_words in decoded_words_list:
+    #   decoded_sents = []
+    #   while len(decoded_words) > 0:
+    #     try:
+    #       fst_period_idx = decoded_words.index(".")
+    #     except ValueError: # there is text remaining that doesn't end in "."
+    #       fst_period_idx = len(decoded_words)
+    #     sent = decoded_words[:fst_period_idx+1] # sentence up to and including the period
+    #     decoded_words = decoded_words[fst_period_idx+1:] # everything else
+    #     decoded_sents.append(' '.join(sent))
+    #
+    #   # pyrouge calls a perl script that puts the data into HTML files.
+    #   # Therefore we need to make our output HTML safe.
+    #   decoded_sents = [make_html_safe(w) for w in decoded_sents]
+    #   decoded_sents_list.append(decoded_sents)
+
     reference_sents = [make_html_safe(w) for w in reference_sents]
 
     # Write to file
@@ -233,9 +235,10 @@ class BeamSearchDecoder(object):
       for idx,sent in enumerate(reference_sents):
         f.write(sent+'\n') if idx==len(reference_sents)-1 else f.write(sent+" ")
     with open(decoded_file, "a") as f:
-      for decoded_sents in decoded_sents_list:
-        for idx,sent in enumerate(decoded_sents):
-          f.write(sent+'\n') if idx==len(decoded_sents)-1 else f.write(sent+" ")
+      for decoded_sents in decoded_words_list:
+        f.write(decoded_sents+'\n')
+        # for idx,sent in enumerate(decoded_sents):
+        #   f.write(sent+'\n') if idx==len(decoded_sents)-1 else f.write(sent+" ")
 
     # tf.logging.info("Wrote example %i to file" % ex_index)
 

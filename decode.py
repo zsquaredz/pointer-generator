@@ -115,7 +115,7 @@ class BeamSearchDecoder(object):
           decoded_output_list.append(decoded_output)
 
         if FLAGS.single_pass:
-          self.write_for_rouge_custom(original_abstract_sents, decoded_words,
+          self.write_for_rouge_custom(original_abstract_sents, decoded_output_list,
                                counter)  # write ref summary and decoded summary to file, to eval with pyrouge later
           counter += 1  # this is how many examples we've decoded
         else:

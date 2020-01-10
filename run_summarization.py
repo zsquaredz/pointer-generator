@@ -72,7 +72,8 @@ tf.app.flags.DEFINE_boolean('restore_best_model', False, 'Restore the best model
 # Debugging. See https://www.tensorflow.org/programmers_guide/debugger
 tf.app.flags.DEFINE_boolean('debug', False, "Run in tensorflow's debug mode (watches for NaN/inf values)")
 
-
+# whether to get all hypothesis (size is beam_size)
+tf.app.flags.DEFINE_boolean('get_all_beam', False, 'Whether to get all hypothesis during decoding')
 
 def calc_running_avg_loss(loss, running_avg_loss, summary_writer, step, decay=0.99):
   """Calculate the running average loss via exponential decay.

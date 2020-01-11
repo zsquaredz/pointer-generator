@@ -239,6 +239,10 @@ class BeamSearchDecoder(object):
         f.write(decoded_sents+'\n')
         # for idx,sent in enumerate(decoded_sents):
         #   f.write(sent+'\n') if idx==len(decoded_sents)-1 else f.write(sent+" ")
+      # the following for-loop is to place empty line as some beam is filtered by not having STOP token
+      if len(decoded_words_list) < FLAGS.beam_size:
+        for i in range(int(FLAGS.beam_size)-len(decoded_words_list)):
+          f.write('\n')
 
     # tf.logging.info("Wrote example %i to file" % ex_index)
 

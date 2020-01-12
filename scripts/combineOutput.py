@@ -2,6 +2,7 @@ import os
 
 def combine(dir, fileName):
     files = os.listdir(dir)
+    files.sort()
     with open(fileName, 'w') as s:
         for file in files:
             summary = ''

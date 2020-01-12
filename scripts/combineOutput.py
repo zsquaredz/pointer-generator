@@ -15,5 +15,6 @@ def combine(dir, fileName):
             s.write(summary.strip()+'\n')
 
 if __name__ == '__main__':
+    # combine output
     combine('/disk/ocean/zheng/pointer-generator/logs/pretrained_model_tf1.2.1/old_decode_test_400maxenc_10beam_35mindec_100maxdec_ckpt-238410/decoded/',
             'decoded.txt')
